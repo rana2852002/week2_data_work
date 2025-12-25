@@ -44,7 +44,6 @@ def add_missing_flags(df: pd.DataFrame, cols: list[str]) -> pd.DataFrame:
             flagged[f"{col}_missing"] = flagged[col].isna()
 
     return flagged
-import pandas as pd
 
 
 def normalize_text(s: pd.Series) -> pd.Series:
@@ -72,3 +71,53 @@ def dedupe_keep_latest(df: pd.DataFrame, key_cols: list[str], ts_col: str) -> pd
     data = data.reset_index(drop=True)
 
     return data
+import pandas as pd
+
+
+def parse_datetime(df: pd.DataFrame, col: str, *, utc: bool = True) -> pd.DataFrame:
+    out = df.copy()
+    out[col] = pd.to_datetime(out[col], errors="coerce", utc=utc)
+    return out
+
+
+def add_time_parts(df: pd.DataFrame, ts_col: str) -> pd.DataFrame:
+    out = df.copy()
+    ts = out[ts_col]
+
+    # parts
+    out["year"] = ts.dt.year
+    out["month"] = ts.dt.month
+    out["day"] = ts.dt.day
+    out["hour"] = ts.dt.hour
+    out["dow"] = ts.dt.day_name()
+
+    return out
+
+
+def iqr_bounds(s: pd.Series, k: float = 1.5) -> tuple[float, float]:
+    clean = s.dropna()
+
+    q1 = clean.quantile(0.25)
+    q3 = clean.quantile(0.75)
+
+    iqr = q3 - q1
+
+    lower = q1 - k * iqr
+    upper = q3 + k * iqr
+
+    return float(lower), float(upper)
+
+
+def winsorize(s: pd.Series, lo: float = 0.01, hi: float = 0.99) -> pd.Series:
+    clean = s.dropna()
+
+    low_val = clean.quantile(lo)
+    high_val = clean.quantile(hi)
+
+    return s.clip(lower=low_val, upper=high_val)
+
+def add_outlier_flag(df: pd.DataFrame, col: str, k: float = 1.5) -> pd.DataFrame:
+    out = df.copy()
+    lo, hi = iqr_bounds(out[col], k=k)
+    out[f"{col}_is_outlier"] = (out[col] < lo) | (out[col] > hi)
+    return out
