@@ -1,15 +1,20 @@
 {
-  "run_utc": "2025-12-25T00:54:52.907081+00:00",
-  "inputs": {
-    "orders": "/Users/ranaahmed/Desktop/week2_works/data/raw/orders.csv",
-    "users": "/Users/ranaahmed/Desktop/week2_works/data/raw/users.csv"
-  },
-  "rows": {
+  "rows_in": {
     "orders": 10,
     "users": 5
   },
-  "outputs": {
-    "orders": "/Users/ranaahmed/Desktop/week2_works/data/processed/orders.parquet",
-    "users": "/Users/ranaahmed/Desktop/week2_works/data/processed/users.parquet"
+  "rows_out": {
+    "analytics": 10
+  },
+  "missing_created_at": 1,
+  "country_match_rate": 1.0,
+  "config": {
+    "root": "/Users/ranaahmed/Desktop/week2_works",
+    "raw_orders": "/Users/ranaahmed/Desktop/week2_works/data/raw/orders.csv",
+    "raw_users": "/Users/ranaahmed/Desktop/week2_works/data/raw/users.csv",
+    "out_orders_clean": "/Users/ranaahmed/Desktop/week2_works/data/processed/orders_clean.parquet",
+    "out_users": "/Users/ranaahmed/Desktop/week2_works/data/processed/users.parquet",
+    "out_analytics": "/Users/ranaahmed/Desktop/week2_works/data/processed/analytics_table.parquet",
+    "run_meta": "/Users/ranaahmed/Desktop/week2_works/data/processed/_run_meta.json"
   }
 }
