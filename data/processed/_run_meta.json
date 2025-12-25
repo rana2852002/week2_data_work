@@ -1,0 +1,15 @@
+{
+  "run_utc": "2025-12-25T00:54:52.907081+00:00",
+  "inputs": {
+    "orders": "/Users/ranaahmed/Desktop/week2_works/data/raw/orders.csv",
+    "users": "/Users/ranaahmed/Desktop/week2_works/data/raw/users.csv"
+  },
+  "rows": {
+    "orders": 10,
+    "users": 5
+  },
+  "outputs": {
+    "orders": "/Users/ranaahmed/Desktop/week2_works/data/processed/orders.parquet",
+    "users": "/Users/ranaahmed/Desktop/week2_works/data/processed/users.parquet"
+  }
+}
